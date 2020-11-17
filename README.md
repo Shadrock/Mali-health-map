@@ -183,7 +183,7 @@ Now we'll symbolize the admin units on the map by a measure of malnutrition. Thi
 The first step is to set up a function for our color ramp. This is where we set up our classification breaks and color scheme. We're going to use the `Wast_Text` value from our GeoJSON. This is a measure of malnutrition in children under 5 years old and has a string value of "High", "Medium", "Low", and "Uncategorized". Enter the following function in your script tags. Since "uncategorized" fills basically the same role as "no data" we have three classes with the need for a null data color. Use [Colorbrewer](https://colorbrewer2.org) to find a good single hue color-scheme for sequential data with 3 classes. To set up the function for your classes and colors, create a function, call it `setColor`, and then return your classes. Enter the following function in your script tags. I added it immediately under where I added the GeoJSON containing the admin units.
 
 ```javascript
-// Set function for color ramp w/ colors from Colobrewer
+// Set function for color ramp w/ colors from Colorbrewer
 function setColor(Wast_Text){
 return Wast_Text == 'High' ? '#e6550d' :
   Wast_Text == 'Medium' ? '#fdae6b' :
