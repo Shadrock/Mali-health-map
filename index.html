@@ -103,16 +103,17 @@
 		    Healthsites = L.geoJson(data,{
 					onEachFeature: function (feature, layer) {
 						layer.bindPopup('Type: '+feature.properties.amenity+'<br>Name: '+feature.properties.name+'');
-				}, pointToLayer: function (feature, latlng) {
+					}, pointToLayer: function (feature, latlng) {
             if (feature.properties.amenity == "clinic"){ // Replacing previous marker with conditionals
               var marker = L.marker(latlng,{icon: clinicIcon});
             } else if (feature.properties.amenity == "dentist") {
               var marker = L.marker(latlng,{icon: dentistIcon});
-						} else if (feature.properties.amenity == "doctor") {
+						} else if (feature.properties.amenity == "doctors") {
 							var marker = L.marker(latlng,{icon: doctorsIcon});
 						} else if (feature.properties.amenity == "hospital") {
 							var marker = L.marker(latlng,{icon: hospitalIcon});
-						} else {var marker = L.marker(latlng,{icon: pharmacyIcon});
+						} else {
+							var marker = L.marker(latlng,{icon: pharmacyIcon});
             };
         	return marker;
         	}
