@@ -1,7 +1,9 @@
 # Mali Health Maps
 
-Context, importance...
-structure of a web page?
+Context, help partner organizations search for health facilities in areas where they work. Both understand what facilities are already there (existing capacity and resources) but also identify people with whom to work to develop further interventions to help combat malnutrition. These can be partners to help distribute information, understand the issues in their specific areas, etc...
+
+importance...
+structure of a web page? DOM?
 
 ## The Data
 Stuff about data...
@@ -25,7 +27,7 @@ Now let's add our data. I have included the jQuery library in our document so we
 // Null variable that will hold Healthsites data
 var Healthsites = null;
 
-// Get GeoJSON and put on it on the map when it loads
+// Add GeoJSON Data to the map when it loads
 $.getJSON("data/Mali_healthsites.geojson",function(data){
     // set Healthsites to the dataset and add the Healthsites GeoJSON layer to the map
     Healthsites = L.geoJson(data,{
@@ -45,7 +47,7 @@ The `Healthsites` variable will hold the contents of our GeoJSON so we can refer
 The point markers showing the Health sites are the default blue Leaflet map pins. These are okay, but it's always nice to customize your map. And, if you are showing multiple properties (i.e. tyipe of amenity) or want to create unique symbols, you can set your point symbols to be represented by an icon of your choosing. The steps towards doing this are quite easy, and you can use the [Leaflet icon class](https://leafletjs.com/reference-1.7.1.html#icon) to set up your parameters. You have a few choices for your custom icons:
 - [Mapbox Maki](https://github.com/jseppi/Leaflet.MakiMarkers): this Leaflet plug-in allows you to use icons from the [Mapbox Maki library](https://labs.mapbox.com/maki-icons/). You will need to use your Mapbox API token for this.
 - [Font Awesome](https://github.com/lvoogdt/Leaflet.awesome-markers): this Leaflet plug-in allows you to use the open source [Font Awesome icon library](https://fontawesome.com).
-- Create your own! You can make your own icons by using an existing image or creating one and uploading it to your server. A great place to get fantastic icons is the [Noun Project](https://thenounproject.com/). In fact, the [U.N. Office for the Coordination of Humanitarian Affairs](https://www.unocha.org/) (or OCHA) maintains [a standard set of icons on the Noun Project](https://thenounproject.com/ochavisual/collection/ocha-humanitarian-icons-v02/)!
+- Create your own! You can make your own icons by using an existing image or creating one and uploading it to your server (in this case our Github repo). A great place to get fantastic icons is the [Noun Project](https://thenounproject.com/). In fact, the [U.N. Office for the Coordination of Humanitarian Affairs](https://www.unocha.org/) (or OCHA) maintains [a standard set of icons on the Noun Project](https://thenounproject.com/ochavisual/collection/ocha-humanitarian-icons-v02/)!
 
 The unique values for `amenity` are `clinic`, `dentist`, `doctors`, `hospital`, `pharmacy`. Find the OCHA icons for these values and load them into a folder in your repo called `icons`. Our icons will be small so download the 100px size. If the OCHA set doesn't have the icons you're looking for, search around to find what you want to use: be mindful of the licensing requirements for some icons!
 
@@ -76,7 +78,7 @@ Before our custom icons appear, we need to replace the default icons created whe
 
 Find the code block where we added our GeoJSON:
 ```javascript
-// Get GeoJSON and put on it on the map when it loads
+// Add GeoJSON Data to the map when it loads
 $.getJSON("data/Mali_healthsites.geojson",function(data){
     // set Healthsites to the dataset and add the Healthsites GeoJSON layer to the map
     Healthsites = L.geoJson(data,{
@@ -88,7 +90,7 @@ $.getJSON("data/Mali_healthsites.geojson",function(data){
 ```
 and change it to the following:
 ```javascript
-// Add GeoJSON Data
+// Add GeoJSON Data to the map when it loads
 $.getJSON("data/Mali_healthsites.geojson",function(data){
     // set Healthsites to the dataset and add the Healthsites GeoJSON layer to the map
     Healthsites = L.geoJson(data,{
@@ -134,7 +136,7 @@ var pharmacyIcon = new healthIcon({iconUrl: 'icons/medicine.png'});
 We've added 5 icons, one for each amenity type. When the GeoJSON is added to the map, we need to check the features when we apply the custom icon to see what the value of `feature.property.amenity` is. If it is equal to `clinic`, we want the icon to be set to `clinicIcon`, and so forth. To do this, we'll use conditionals: specifically "If.. Else statements". To accomplish this, we can put a conditional in our call to the GeoJSON that checks to see if a case status is equal to "clinic" and then sets an icon, and if it is not, will run the `else if statement`, to the icon equal to the next amenity type. We'll add the conditional within the `L.geoJson` `pointToLayer` option that we established earlier when adding our Health sites GeoJSON layer. That code block, with conditionals added, should now look something like this:
 
 ```javascript
-// Add GeoJSON Data
+// Add GeoJSON Data to the map when it loads
 $.getJSON("data/Mali_healthsites.geojson",function(data){
     // set Healthsites to the dataset and add the Healthsites GeoJSON layer to the map
     Healthsites = L.geoJson(data,{
@@ -316,6 +318,38 @@ Although I don't often add scale bars to web maps where the geography is really 
 // Add Scale Bar to Map
 L.control.scale({position: 'bottomleft'}).addTo(map);
 ```
+### Adding a Search
+Consider the use-case for this map: partner organizations are going to look for health facilities in the areas they work to understand what health resources are available, and to identify local partners with whom they can work (e.g. distributing information about malnutrition or as a place to conduct further activities).
+
+Right now, our map presents two problems:
+- it's still hard to read visually since so many of the points overlap one another _and_...
+- a user would need to know where a particular place in Mali is located and then manually zoom into it to see what health providers are there. This can be a bit cumbersome!
+
+We can fix both these problems by adding a search feature that will enable users to search for place names (in case they don't already know where in the country certain places are), which will also zoom them into places of interest without needing to try and take in the whole map.
+
+To do this we'lll use the [Leaflet Control Geocoder](https://github.com/perliedman/leaflet-control-geocoder). We can see from the documentation in the link above, that the geocoder requires an additional stylesheet reference and script source. Add the following code to the appropriate place in your `HTML` document.
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+```
+Now we can add the search with the generic code: `L.Control.geocoder().addTo(map);`. If you add this code you'll note that the default position for the search bar is in the upper right. Let's add a few options to move the search bar to the upper left with the other map controls, and give the user a few prompts.
+
+```javascript
+//Adding the search geocoder
+L.Control.geocoder({
+  position: "topleft",
+  placeholder: "Enter place name",
+  errorMessage: "No place found.",
+})
+.addTo(map);
+```
+Be sure the code is added between your `script` tags: I added this code block immediately under the code that loads the base map tiles.
+
+####But what are we searching???
+Remember that any search tool must have a database to search and that you need to specify which geocoding service they are searching! Just adding a search bar to your map doesn't mean that it is automatically searching anything on your map (e.g. your data or map tiles). From the documentation provided you can find that the default geocoding service for _this_ search tool is [Nominatim](https://wiki.openstreetmap.org/wiki/Nominatim), which is a tool to search OpenStreetMap. This is perfect since we're using base map tiles created by OSM or using OSM data. If you're using map tiles from Google, Bing, or other providers, you would most likely want to specify _their_ geocoding service as the default so that search results and map tiles show the same thing! See the [Leaflet Control Geocoder Github repo](https://github.com/perliedman/leaflet-control-geocoder) or how to configure which geocoding service you want. For our purposes, the default Nominatim is perfect.
+
 
 ## Buttons?
 Are we doing this or just challenging them to do implement clustering?

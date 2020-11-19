@@ -3,6 +3,8 @@
 <head>
 	<title>Mali Health Sites Map</title>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" /> <!-- for geocoder -->
+
 	<style>
 		body {
 			margin: 0px;
@@ -66,6 +68,11 @@
 			padding: 15px;
 		}
 
+		#narrative {
+			margin: 0 auto;
+			padding: 15px;
+		}
+
 		#header {
 			margin-top: 0px;
 			margin-bottom: 0px;
@@ -86,16 +93,26 @@
 	</div>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>  <!-- for geocoder -->
 	<script>
-    	// Create Map Object
-    	var map = L.map('map',{ center: [17.130,-6.053], zoom: 5 });
+    // Create Map Object
+    var map = L.map('map',{ center: [17.130,-6.053], zoom: 5 });
 
-    	// Add Tile Layer
+    // Add Tile Layer
 		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
 			attribution: 'Tiles by <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a> | Data from <a href="https://data.humdata.org/search?ext_geodata=1&q=mali%20health&ext_page_size=25&sort=score%20desc%2C%20if(gt(last_modified%2Creview_date)%2Clast_modified%2Creview_date)%20desc">HDX</a>',
 			maxZoom: 17,
 			minZoom: 5
 		}).addTo(map);
+
+		//Adding the search geocoder
+  	L.Control.geocoder({
+			position: "topleft",
+			placeholder: "Enter place name",
+			errorMessage: "No place found.",
+		})
+		.addTo(map);
+
 
 		// Add GeoJSON Data
 		$.getJSON("data/Mali_healthsites.geojson",function(data){
@@ -137,7 +154,6 @@
 		var doctorsIcon = new healthIcon({iconUrl: 'icons/doctor.png'});
 		var hospitalIcon = new healthIcon({iconUrl: 'icons/health_facility.png'});
 		var pharmacyIcon = new healthIcon({iconUrl: 'icons/medicine.png'});
-
 
 		// Add Admin unit Polygons
 		// Null variable that will hold admin units layer
