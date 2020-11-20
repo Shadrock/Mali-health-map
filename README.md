@@ -105,6 +105,7 @@ $.getJSON("data/Mali_healthsites.geojson",function(data){
 ```
 We are using `onEachFeature` to set the popup, but to set an icon, we need to use `pointToLayer`, which runs a function when the GeoJSON is loaded that takes a feature and creates a marker at that latitude and longitude. Marker has an option called `icon` that us set our `healthIcon` variable. Once set, we return the marker, wihch replaces the default blue pin with our custom icon. You should now see something like this:
 ![Screenshot of map progress](images/custom_icons.png)
+
 We're making progress... but our map is kind of hard to read!
 
 ### Change Icons by Amenity
@@ -180,6 +181,7 @@ $.getJSON("data/Mali_Prevalence_Global_Acute_Malnutrition.geojson",function(data
 ```
 Save and refresh your map and you should see something that looks like this:
 ![Screenshot of map progress](images/add_admin.png)
+
 Now we'll symbolize the admin units on the map by a measure of malnutrition. This is a three step process: setting up function for the color ramp, setting the style function, and setting the style option for the GeoJSON.
 
 ### Setting up the color ramp
@@ -229,7 +231,7 @@ $.getJSON("data/Mali_Prevalence_Global_Acute_Malnutrition.geojson",function(data
 Now the map should look something like this:
 ![Screenshot of map progress](images/choropleth.png)
 
-##Adding Map elements
+## Adding Map elements
 Next we'll add a few traditional elements to the map to make it easier for the viewer to understand the information: a legend and a scale bar.
 
 ### Adding a Legend
