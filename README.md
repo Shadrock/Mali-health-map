@@ -349,7 +349,7 @@ L.Control.geocoder({
 ```
 Be sure the code is added between your `script` tags: I added this code block immediately under the code that loads the base map tiles.
 
-####But what are we searching???
+#### But what are we searching???
 Remember that any search tool must have a database to search and that you need to specify which geocoding service they are searching! Just adding a search bar to your map doesn't mean that it is automatically searching anything on your map (e.g. your data or map tiles). From the documentation provided you can find that the default geocoding service for _this_ search tool is [Nominatim](https://wiki.openstreetmap.org/wiki/Nominatim), which is a tool to search OpenStreetMap. This is perfect since we're using base map tiles created by OSM or using OSM data. If you're using map tiles from Google, Bing, or other providers, you would most likely want to specify _their_ geocoding service as the default so that search results and map tiles show the same thing! See the [Leaflet Control Geocoder Github repo](https://github.com/perliedman/leaflet-control-geocoder) or how to configure which geocoding service you want. For our purposes, the default Nominatim is perfect.
 
 
