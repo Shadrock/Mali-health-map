@@ -61,6 +61,7 @@
 		  font-size: 12px;
 		  line-height: 18px;
 		  margin: 0;
+		}
 
 		#controls {
 			width: 100%;
@@ -88,8 +89,8 @@
 		<div id="map"></div>
 		<div id="controls">
 			<button class="button" id="toggleButton">ANY BUTTON?</button>
-			<div id="narrative"><p>Anything here?</p></div>
 		</div>
+		<div id="narrative"><p>Anything here?</p></div>
 	</div>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -114,28 +115,32 @@
 		.addTo(map);
 
 
-		// Add GeoJSON Data
-		$.getJSON("data/Mali_healthsites.geojson",function(data){
-		    // set Healthsites to the dataset and add the Healthsites GeoJSON layer to the map
-		    Healthsites = L.geoJson(data,{
-					onEachFeature: function (feature, layer) {
-						layer.bindPopup('Type: '+feature.properties.amenity+'<br>Name: '+feature.properties.name+'');
-					}, pointToLayer: function (feature, latlng) {
-            if (feature.properties.amenity == "clinic"){ // Replacing previous marker with conditionals
-              var marker = L.marker(latlng,{icon: clinicIcon});
-            } else if (feature.properties.amenity == "dentist") {
-              var marker = L.marker(latlng,{icon: dentistIcon});
-						} else if (feature.properties.amenity == "doctors") {
-							var marker = L.marker(latlng,{icon: doctorsIcon});
-						} else if (feature.properties.amenity == "hospital") {
-							var marker = L.marker(latlng,{icon: hospitalIcon});
-						} else {
-							var marker = L.marker(latlng,{icon: pharmacyIcon});
-            };
-        	return marker;
-        	}
-				}).addTo(map);
+		// from https://stackoverflow.com/questions/39545791/leaflet-map-getting-specific-data-of-geojson-file-with-button
+		var categories = {},
+    category;
+
+		var layersControl = L.control.layers(null, null, {position: 'topleft'}).addTo(map);
+
+		function addDataToMap(data, map) {
+  	L.geoJson(data, {
+    	onEachFeature: function(feature, layer) {
+			// Adding pop ups
+			var popupText = "Type: " + feature.properties.amenity + "<br> Name: "+ feature.properties.name ;
+          layer.bindPopup(popupText);
+      		category = feature.properties.amenity;
+      	// Initialize the category layer group if not already set.
+      	if (typeof categories[category] === "undefined") {
+        	categories[category] = L.layerGroup().addTo(map);
+        	layersControl.addOverlay(categories[category], category);
+      	}
+      	categories[category].addLayer(layer);
+    	}
+  	});
+	}
+		$.getJSON("data/Mali_healthsites.geojson", function(data) {
+  		addDataToMap(data, map);
 		});
+
 
 		// Create Custom Icons Here
 		// Start by creating a standard Health Icon
