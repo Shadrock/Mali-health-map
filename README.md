@@ -6,8 +6,11 @@ importance...
 structure of a web page? DOM?
 
 ## The Data
-Stuff about data...
-Add  `REAMDE` to data folder...
+These data were originally downloaded from the [Humanitarian Data Exchange](https://data.humdata.org/), specifically: 
+- [ICA Mali - Prevalence of Global Acute Malnutrition](https://data.humdata.org/dataset/wfp-geonode-ica-mali-prevalence-of-global-acute-malnutrition) as geojson and 
+- [Mali Health sites](https://data.humdata.org/dataset/mali-healthsites) as `.csv`.
+
+Further notes on the data and data processing conducted for this lab can be found [in the data readme file in the data folder](https://github.com/Shadrock/Mali-health-map/tree/main/data).
 
 ## Map Set Up & Adding Data
 
