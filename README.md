@@ -5,7 +5,7 @@ For this studio, imagine that you work in a development organization that is try
 This studio will greatly improve your ability to create legends, style various forms of data, and use interactivity like pop-ups and map controls to provide your users with ways to quickly view the information they need on a map. This studio will also give you a highly structured [Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) (DOM), that can be used as a template for future web pages.
 
 ## Expected Outputs for this week / what to submit:
-At the end of this tutorial you will have a working map that shows malnutrition and health sites in Mali. I would like you to try and improve on the map, keeping in mind the needs of your users. It may be that you want to change the icons, add functionality, or make other changes. You will submit a link to your working map, including an explanation of any changes you make in the `narrative` section of the web page, hosted in a Github pages site. 
+At the end of this tutorial you will have a working map that shows malnutrition and health sites in Mali. I would like you to try and improve on the map, keeping in mind the needs of your users. It may be that you want to change the icons, add functionality, or make other changes. You will submit a link to your working map, including an explanation of any changes you make in the `narrative` section of the web page, hosted in a Github pages site.
 
 ## The Data
 These data were originally downloaded from the [Humanitarian Data Exchange](https://data.humdata.org/), specifically:
@@ -359,4 +359,4 @@ Remember that any search tool must have a database to search and that you need t
 
 
 ## Next Steps
-Congratulations, you've built an interactive map that can be used to identify health sites in Mali. What could you do to improve this map? Perhaps you want to create buttons to only show certain health sites ([this tutorial would be a good starting point for that](http://duspviz.mit.edu/web-map-workshop/leaflet-javascript-interactions/)), change the icons, or add other forms of interactivity. There are no rules for the changes you can make, but be sure you explain or justify your changes in the narrative section of the web page.
+Congratulations, you've built an interactive map that can be used to identify health sites in Mali. What could you do to improve this map? Perhaps you want to create buttons to only show certain health sites ([this tutorial would be a good starting point for that](http://duspviz.mit.edu/web-map-workshop/leaflet-javascript-interactions/)) or using [panel layers](https://labs.easyblog.it/maps/leaflet-panel-layers/) to add functionality to your legend, change the icons, or add other forms of interactivity. There are no rules for the changes you can make, but be sure you explain or justify your changes in the narrative section of the web page.
