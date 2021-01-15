@@ -24,7 +24,7 @@ Here you will see our HTML, with some CSS styling at the top, a couple of `div` 
 
 Within the `script tags`, I've added the map object and tile layer. These should be extremely familiar since this creates our map object and adds a basemap. Keeping in mind that our audience is potentially French speaking, or working with geographic references to places with French names due to the colonial history of Mali, is there a better tile set we can use? If you need some starting options have a look at the [Leaflet Providers Overview](https://leaflet-extras.github.io/leaflet-providers/preview/). You will also need to re-center the map and change the `attribution:` of the map to include the new tile set and the data provider! Also consider the `min` and `max` zoom levels: this is a good place to control the scales at which your map operates.
 
-Now let's add our data. I have included the jQuery library in our document so we can use an Asynchronous call to get external data using AJAX and the `$.getJSON` to get our data from an external location. [AJAX](https://en.wikipedia.org/wiki/Ajax_%28programming%29) is one of the languages we looked at very early on in discussions about client/server relationship. In the data folder you will find two datasets. First we'll add `Mali_healthsites.geojson`. At the end of our script, within the script tags, enter the following code to add the data and bind a popup. We want our pop up to display the name of the health site from the feature properties in the geoJson. Even better would be if we displayed _both_ tye type of establishment (`amenity`) _and_ the name.
+Now let's add our data. I have included the jQuery library in our document so we can use an Asynchronous call to get external data using AJAX and the `$.getJSON` to get our data from an external location. [AJAX](https://en.wikipedia.org/wiki/Ajax_%28programming%29) is one of the languages we looked at very early on in discussions about client/server relationship. In the data folder you will find two datasets. First we'll add `Mali_healthsites.geojson`. At the end of our script, within the script tags, enter the following code to add the data and bind a popup. We want our pop up to display the name of the health site from the feature properties in the geoJson. Even better would be if we displayed _both_ the type of establishment (`amenity`) _and_ the name.
 
 ```javascript
 // Null variable that will hold Healthsites data
@@ -47,7 +47,7 @@ The `Healthsites` variable will hold the contents of our GeoJSON so we can refer
 <!-- If referring to URLs - remember that you'll need to enable your repo with GH pages _and_ upload your data before rendering it: otherwise, the URL for the data won't exist yet! -->
 
 ## Customizing Point Markers
-The point markers showing the Health sites are the default blue Leaflet map pins. These are okay, but it's always nice to customize your map. And, if you are showing multiple properties (i.e. tyipe of amenity) or want to create unique symbols, you can set your point symbols to be represented by an icon of your choosing. The steps towards doing this are quite easy, and you can use the [Leaflet icon class](https://leafletjs.com/reference-1.7.1.html#icon) to set up your parameters. You have a few choices for your custom icons:
+The point markers showing the Health sites are the default blue Leaflet map pins. These are okay, but it's always nice to customize your map. And, if you are showing multiple properties (i.e. type of amenity) or want to create unique symbols, you can set your point symbols to be represented by an icon of your choosing. The steps towards doing this are quite easy, and you can use the [Leaflet icon class](https://leafletjs.com/reference-1.7.1.html#icon) to set up your parameters. You have a few choices for your custom icons:
 - [Mapbox Maki](https://github.com/jseppi/Leaflet.MakiMarkers): this Leaflet plug-in allows you to use icons from the [Mapbox Maki library](https://labs.mapbox.com/maki-icons/). You will need to use your Mapbox API token for this.
 - [Font Awesome](https://github.com/lvoogdt/Leaflet.awesome-markers): this Leaflet plug-in allows you to use the open source [Font Awesome icon library](https://fontawesome.com).
 - Create your own! You can make your own icons by using an existing image or creating one and uploading it to your server (in this case our Github repo). A great place to get fantastic icons is the [Noun Project](https://thenounproject.com/). In fact, the [U.N. Office for the Coordination of Humanitarian Affairs](https://www.unocha.org/) (or OCHA) maintains [a standard set of icons on the Noun Project](https://thenounproject.com/ochavisual/collection/ocha-humanitarian-icons-v02/)!
@@ -67,11 +67,11 @@ var healthIcon = L.icon({
   popupAnchor: [0,-6]
 });
 ```
-We're using [Leaflet Icon class](https://leafletjs.com/reference-1.7.1.html#icon) (`L.icon`), which requires a path to your icon, then takes some of other options that allow you a high level of control. Creating this icon as an object and saving it as healthIcon will allow us to set the display of feature on the to this icon. The options we're using are:
+We're using [Leaflet Icon class](https://leafletjs.com/reference-1.7.1.html#icon) (`L.icon`), which requires a path to your icon, then takes some of other options that allow you a high level of control. Creating this icon as an object and saving it as healthIcon will allow us to set the display of features to this icon. The options we're using are:
 - `iconUrl`: contains the path to your icon
 - `iconSize`: sets the size of your icon in pixels. Best to work at size, okay to scale down, never scale up
-- `iconAnchor`: sets anchor point (where the icon is located in respect to the feature latitude and longitude
-- `popupAnchor`: sets anchor point of bottom of popup
+- `iconAnchor`: sets anchor point (where the icon is located in respect to the feature latitude and longitude)
+- `popupAnchor`: sets the anchor point on the bottom of popup
 
 Icon anchors can be a bit confusing at first, so let's have a closer look at them. The `iconAnchor` coordinates are set from a 0,0 point at the upper left corner of the icon. If our image is 24px by 24px, to get the anchor to set on the center (i.e. to make the center our exact latitude and longitude) set the iconAnchor to 12,12. If our icon were a pushpin, we could change the anchor so that the end of the pushpin would be located at the point. The `popupAnchor` sets where the popup points to. The `popupAnchor` is set relative to the `iconAnchor`, meaning the 0,0 point for the popup is actually at the set iconAnchor point.
 
@@ -106,13 +106,13 @@ $.getJSON("data/Mali_healthsites.geojson",function(data){
     }).addTo(map);
 });
 ```
-We are using `onEachFeature` to set the popup, but to set an icon, we need to use `pointToLayer`, which runs a function when the GeoJSON is loaded that takes a feature and creates a marker at that latitude and longitude. Marker has an option called `icon` that us set our `healthIcon` variable. Once set, we return the marker, wihch replaces the default blue pin with our custom icon. You should now see something like this:
+We are using `onEachFeature` to set the popup, but to set an icon, we need to use `pointToLayer`, which runs a function when the GeoJSON is loaded that takes a feature and creates a marker at that latitude and longitude. Marker has an option called `icon` that allows us to set our `healthIcon` variable. Once set, we return the marker, wihch replaces the default blue pin with our custom icon. You should now see something like this:
 ![Screenshot of map progress](images/custom_icons.png)
 
 We're making progress... but our map is kind of hard to read!
 
 ### Change Icons by Amenity
-If we want to symbolize the different types of health sites with different icons, we can create an icon class. One goal of programming is to avoid repeating code, and creating a class for the icons will allow us specify anchors and sizes once, while maintaining the ability to change out icons. For example, we can set our map to display the different icons for different amenities. In our GeoJSON, the `amenity` property contains this information for each feature and can be accessed by `feature.properties.amenity`. We don't want to enter all of the specifics on icon sizes and anchors again, they will remain the same. We can create a class of icons that will allow us to only specify our icon image, keep all other options unchanged.
+If we want to symbolize the different types of health sites with different icons, we can create an icon class. One goal of programming is to avoid repeating code, and creating a class for the icons will allow us to specify anchors and sizes once, while maintaining the ability to change out icons. For example, we can set our map to display the different icons for different amenities. In our GeoJSON, the `amenity` property contains this information for each feature and can be accessed by `feature.properties.amenity`. We don't want to enter all of the specifics on icon sizes and anchors again, they will remain the same. We can create a class of icons that will allow us to only specify our icon image, keep all other options unchanged.
 
 We're going to make some changes to our initial `healthIcon` variable _and_ add our new icons. The class option is built on top of, or extends, the `L.icon` object. See the [Leaflet documentation on defining icon classes](https://leafletjs.com/examples/custom-icons/#defining-an-icon-class) for more information. An important note, classes begin with a capital letter, so we'll change `L.icon` to `L.Icon.extend`).
 
@@ -317,7 +317,7 @@ An alternative method to create a legend uses a For loop conditional statement t
 There are a myriad of ways to play with the layout of the legend, this is simply one of them.
 
 ### Adding a Scale Bar
-Although I don't often add scale bars to web maps where the geography is really familiar to most users, this map implies (and expects) a user to zoom in to see specific rat sightings. Because some users may not be intimately familiar with the scale of Boston, I added a legend using the following code:
+Although I don't often add scale bars to web maps where the geography is really familiar to most users, this map implies (and expects) a user to zoom in to see specific health sites in villages, etc. Because some users may not be intimately familiar with the scale of Mali or the places where the health sites are located, I added a legend using the following code:
 
 ```JavaScript
 // Add Scale Bar to Map
@@ -332,7 +332,7 @@ Right now, our map presents two problems:
 
 We can fix both these problems by adding a search feature that will enable users to search for place names (in case they don't already know where in the country certain places are), which will also zoom them into places of interest without needing to try and take in the whole map.
 
-To do this we'lll use the [Leaflet Control Geocoder](https://github.com/perliedman/leaflet-control-geocoder). We can see from the documentation in the link above, that the geocoder requires an additional stylesheet reference and script source. Add the following code to the appropriate place in your `HTML` document.
+To do this we'll use the [Leaflet Control Geocoder](https://github.com/perliedman/leaflet-control-geocoder). We can see from the documentation in the link above, that the geocoder requires an additional stylesheet reference and script source. Add the following code to the appropriate place in your `HTML` document.
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
