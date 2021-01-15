@@ -1,13 +1,15 @@
 # Mali Health Maps
+For this studio, imagine that you work in a development organization that is trying to tackle the issue of malnutrition in Mali. Program managers want to identify existing health sites in parts of the country where they work that can be used to distribute information about malnutrition, host workshops or clinics on addressing malnutrition, or as sites for data collection. The challenge is that most program officers aren’t sure of what health sites exist and will need to work with local staff to confirm and identify appropriate health sites. As a starting point, the program officers have asked you to provide an interactive map that delivers some information about malnutrition in Mali along with information about existing health sites so that they can investigate the places where they have programs to get a feel for what health resources are where, for further investigation. The map might also be used to think about where to create new health sites or confirm existing ones.
 
-Context, help partner organizations search for health facilities in areas where they work. Both understand what facilities are already there (existing capacity and resources) but also identify people with whom to work to develop further interventions to help combat malnutrition. These can be partners to help distribute information, understand the issues in their specific areas, etc...
+## What You Will Learn
+This studio will greatly improve your ability to create legends, style various forms of data, and use interactivity like pop-ups and map controls to provide your users with ways to quickly view the information they need on a map. This studio will also give you a highly structured [Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) (DOM), that can be used as a template for future web pages.
 
-importance...
-structure of a web page? DOM?
+## Expected Outputs for this week / what to submit:
+At the end of this tutorial you will have a working map that shows malnutrition and health sites in Mali. I would like you to try and improve on the map, keeping in mind the needs of your users. It may be that you want to change the icons, add functionality, or make other changes. You will submit a link to your working map, including an explanation of any changes you make in the `narrative` section of the web page, hosted in a Github pages site. 
 
 ## The Data
-These data were originally downloaded from the [Humanitarian Data Exchange](https://data.humdata.org/), specifically: 
-- [ICA Mali - Prevalence of Global Acute Malnutrition](https://data.humdata.org/dataset/wfp-geonode-ica-mali-prevalence-of-global-acute-malnutrition) as geojson and 
+These data were originally downloaded from the [Humanitarian Data Exchange](https://data.humdata.org/), specifically:
+- [ICA Mali - Prevalence of Global Acute Malnutrition](https://data.humdata.org/dataset/wfp-geonode-ica-mali-prevalence-of-global-acute-malnutrition) as geojson and
 - [Mali Health sites](https://data.humdata.org/dataset/mali-healthsites) as `.csv`.
 
 Further notes on the data and data processing conducted for this lab can be found [in the data readme file in the data folder](https://github.com/Shadrock/Mali-health-map/tree/main/data).
@@ -19,7 +21,7 @@ Here you will see our HTML, with some CSS styling at the top, a couple of `div` 
 - `wrapper`: the main container for our map in the body. Our whole map and interface will fall inside the wrapper element.
 - `header`: an element in which we can put the title of our map.
 - `map`: the element our map will be attached to.
-- `controls`: the element in which we can put any buttons or controls.
+- `controls`: an element into which we could put any buttons or controls not on the map itself (we probably won't use this in this tutorial).
 - `narrative`: an element inside controls where we can put a brief explanation about the map to help the viewer.
 
 Within the `script tags`, I've added the map object and tile layer. These should be extremely familiar since this creates our map object and adds a basemap. Keeping in mind that our audience is potentially French speaking, or working with geographic references to places with French names due to the colonial history of Mali, is there a better tile set we can use? If you need some starting options have a look at the [Leaflet Providers Overview](https://leaflet-extras.github.io/leaflet-providers/preview/). You will also need to re-center the map and change the `attribution:` of the map to include the new tile set and the data provider! Also consider the `min` and `max` zoom levels: this is a good place to control the scales at which your map operates.
@@ -356,6 +358,5 @@ Be sure the code is added between your `script` tags: I added this code block im
 Remember that any search tool must have a database to search and that you need to specify which geocoding service they are searching! Just adding a search bar to your map doesn't mean that it is automatically searching anything on your map (e.g. your data or map tiles). From the documentation provided you can find that the default geocoding service for _this_ search tool is [Nominatim](https://wiki.openstreetmap.org/wiki/Nominatim), which is a tool to search OpenStreetMap. This is perfect since we're using base map tiles created by OSM or using OSM data. If you're using map tiles from Google, Bing, or other providers, you would most likely want to specify _their_ geocoding service as the default so that search results and map tiles show the same thing! See the [Leaflet Control Geocoder Github repo](https://github.com/perliedman/leaflet-control-geocoder) or how to configure which geocoding service you want. For our purposes, the default Nominatim is perfect.
 
 
-## Buttons?
-Are we doing this or just challenging them to do implement clustering?
-Buttons... yes: http://duspviz.mit.edu/web-map-workshop/leaflet-javascript-interactions/.
+## Next Steps
+Congratulations, you've built an interactive map that can be used to identify health sites in Mali. What could you do to improve this map? Perhaps you want to create buttons to only show certain health sites ([this tutorial would be a good starting point for that](http://duspviz.mit.edu/web-map-workshop/leaflet-javascript-interactions/)), change the icons, or add other forms of interactivity. There are no rules for the changes you can make, but be sure you explain or justify your changes in the narrative section of the web page.
